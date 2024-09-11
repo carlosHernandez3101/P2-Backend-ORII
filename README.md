@@ -1,13 +1,4 @@
 # P2-Backend-ORII
-Aquí tienes el README listo para copiar y usar en tu proyecto:
-
----
-
-# Proyecto de Spring Boot - Gestión de Convenios y Usuarios
-
-## Descripción del Proyecto
-
-Este proyecto es una aplicación web desarrollada con **Spring Boot** que permite gestionar convenios y usuarios. Implementa una arquitectura de microservicios y utiliza **Oracle** como base de datos. El proyecto es compatible con entornos **Windows** y **Linux**.
 
 ## Requisitos Previos
 
