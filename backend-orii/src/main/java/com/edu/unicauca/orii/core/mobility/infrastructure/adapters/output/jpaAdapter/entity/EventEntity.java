@@ -30,9 +30,6 @@ public class EventEntity {
     @SequenceGenerator(name = "Evento_seq", sequenceName = "Evento_seq", allocationSize = 1)
     private Long eventId;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, length = 1024)
     private String description;
 

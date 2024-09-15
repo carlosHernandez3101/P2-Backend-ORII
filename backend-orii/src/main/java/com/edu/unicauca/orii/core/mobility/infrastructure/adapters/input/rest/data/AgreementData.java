@@ -1,5 +1,4 @@
-package com.edu.unicauca.orii.core.mobility.domain.model;
-import java.util.List;
+package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data;
 
 import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
 
@@ -9,18 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-public class Agreement {
-    
+@AllArgsConstructor
+@NoArgsConstructor
+public class AgreementData {
+
     private Long agreementId;
     private String institution;
     private String agreementNumber;
     private AgreementStatus status;
     private String country;
-    private List<Form> forms;
 }

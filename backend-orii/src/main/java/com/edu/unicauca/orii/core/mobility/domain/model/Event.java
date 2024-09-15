@@ -14,7 +14,6 @@ import lombok.Setter;
 public class Event {
 
     private Long eventId;
-    private String name;
     private String description;
     
     private Form forms;
