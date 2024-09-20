@@ -11,5 +11,7 @@ public interface IAgreementRestMapper {
 
     @Mapping(target = "forms", ignore = true)
     Agreement toAgreement(AgreementData agreementData);
+
+    AgreementData toAgreementData(Agreement agreement);
     
 }
