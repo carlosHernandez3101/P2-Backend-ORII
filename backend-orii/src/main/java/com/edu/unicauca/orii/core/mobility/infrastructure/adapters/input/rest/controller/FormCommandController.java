@@ -2,7 +2,10 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.c
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,4 +33,10 @@ public class FormCommandController {
         form = formCommandService.createForm(form);
         return ResponseEntity.ok(formRestMapper.toFormCreateResponse(form));
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteForm(@PathVariable Long id) {
+        formCommandService.deleteForm(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -57,9 +57,17 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort{
     }
 
     @Override
-    public Form updateForm(Long id, Form form) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateForm'");
+    public void deleteForm(Long id) {
+        FormEntity formEntity = formRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Form not found"));
+        formRepository.delete(formEntity);
     }
+
+        @Override
+        public Form updateForm(Long id, Form form) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'updateForm'");
+        }
+
     
 }
