@@ -22,44 +22,99 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class FormCommandJpaAdapter implements IFormCommandPersistencePort{
-    
-    private final IFormRepository formRepository;
-    private final IEventRepository eventRepository;
-    private final IPersonRepository personRepository;
-    private final IAgreementRepository agreementRepository;
-    private final IEventTypeRepository eventTypeRepository;
+public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
 
-    private final IFormAdapterMapper formAdapterMapper;
-    private final IEventAdapterMapper eventAdapterMapper;
-    private final IPersonAdapterMapper personAdapterMapper;
-    
+        private final IFormRepository formRepository;
+        private final IEventRepository eventRepository;
+        private final IPersonRepository personRepository;
+        private final IAgreementRepository agreementRepository;
+        private final IEventTypeRepository eventTypeRepository;
+
+        private final IFormAdapterMapper formAdapterMapper;
+        private final IEventAdapterMapper eventAdapterMapper;
+        private final IPersonAdapterMapper personAdapterMapper;
+
+        @Override
+        public Form createForm(Form form) {
+
+                AgreementEntity agreementEntity = agreementRepository.findById(form.getAgreement().getAgreementId())
+                                .get();
+                FormEntity formEntity = formAdapterMapper.toFormEntity(form);
+                formEntity.setAgreement(agreementEntity);
+
+                EventEntity eventEntity = eventAdapterMapper.toEventEntity(form.getEvent());
+                EventTypeEntity eventTypeEntity = eventTypeRepository
+                                .findById(form.getEvent().getEventType().getEventTypeId())
+                                .get();
+                eventEntity.setEventType(eventTypeEntity);
+                eventEntity = eventRepository.save(eventEntity);
+                formEntity.setEvent(eventEntity);
+
+                PersonEntity personEntity = personAdapterMapper.toPersonEntity(form.getPerson());
+                personEntity = personRepository.save(personEntity);
+                formEntity.setPerson(personEntity);
+
+                formEntity = formRepository.save(formEntity);
+                return formAdapterMapper.toForm(formEntity);
+
+        }
+
+        @Override
+        public Form updateForm(Long id, Form form) {
+                FormEntity formEntity = formRepository.findById(id)
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                                "El formulario con ID " + id + " no fue encontrado"));
+
+                if (formEntity.getAgreement().getAgreementId() != form.getAgreement().getAgreementId()) {
+                        AgreementEntity agreementEntity = agreementRepository
+                                        .findById(form.getAgreement().getAgreementId())
+                                        .orElseThrow(() -> new IllegalArgumentException("Convenio no encontrado"));
+                        formEntity.setAgreement(agreementEntity);
+                }
+
+                if (formEntity.getEvent().getEventType().getEventTypeId() != form.getEvent().getEventType()
+                                .getEventTypeId()) {
+                        EventTypeEntity eventTypeEntity = eventTypeRepository
+                                        .findById(form.getEvent().getEventType().getEventTypeId())
+                                        .orElseThrow(() -> new IllegalArgumentException(
+                                                        "Tipo de evento no encontrado"));
+
+                        formEntity.getEvent().setEventType(eventTypeEntity);
+                }
+
+                formEntity.setOrii(form.getOrii());
+                formEntity.setDirection(form.getDirection());
+                formEntity.setCta(form.getCta());
+                formEntity.setEntryDate(form.getEntryDate());
+                formEntity.setExitDate(form.getExitDate());
+                formEntity.setOriginProgram(form.getOriginProgram());
+                formEntity.setDestinationProgram(form.getDestinationProgram());
+                formEntity.setCity(form.getCity());
+                formEntity.setCountry(form.getCountry());
+                formEntity.setTeacher(form.getTeacher());
+                formEntity.setFaculty(form.getFaculty());
+                formEntity.setFunding(form.getFunding());
+                formEntity.setFundingSource(form.getFundingSource());
+                formEntity.setDestination(form.getDestination());
+                formEntity.setOrigin(form.getOrigin());
+                
+                formEntity.getPerson().setIdentificationType(form.getPerson().getIdentificationType());
+                formEntity.getPerson().setPersonType(form.getPerson().getPersonType());
+                formEntity.getPerson().setFirstName(form.getPerson().getFirstName());
+                formEntity.getPerson().setLastName(form.getPerson().getLastName());
+                formEntity.getPerson().setIdentification(form.getPerson().getIdentification());
+                formEntity.getPerson().setEmail(form.getPerson().getEmail());
+
+                // Convertir y devolver el Form actualizado
+                return formAdapterMapper.toForm(formRepository.save(formEntity));
+        }
+
     @Override
-    public Form createForm(Form form) {
-  
-        AgreementEntity agreementEntity = agreementRepository.findById(form.getAgreement().getAgreementId()).get();
-        FormEntity formEntity = formAdapterMapper.toFormEntity(form);
-        formEntity.setAgreement(agreementEntity);
-
-        EventEntity eventEntity = eventAdapterMapper.toEventEntity(form.getEvent());
-        EventTypeEntity eventTypeEntity = eventTypeRepository.findById(form.getEvent().getEventType().getEventTypeId()).get();
-        eventEntity.setEventType(eventTypeEntity);
-        eventEntity = eventRepository.save(eventEntity);
-        formEntity.setEvent(eventEntity);
-
-        PersonEntity personEntity =  personAdapterMapper.toPersonEntity(form.getPerson());
-        personEntity = personRepository.save(personEntity);
-        formEntity.setPerson(personEntity);
-
-        formEntity = formRepository.save(formEntity);
-        return formAdapterMapper.toForm(formEntity);
-
+    public void deleteForm(Long id) {
+        FormEntity formEntity = formRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Form not found"));
+        formRepository.delete(formEntity);
     }
 
-    @Override
-    public Form updateForm(Long id, Form form) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateForm'");
-    }
     
 }

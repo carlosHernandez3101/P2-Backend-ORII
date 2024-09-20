@@ -23,4 +23,9 @@ public class FormCommandService implements IFormCommandPort {
         return persistencePort.updateForm(id, form);
     }
 
+    @Override
+    public void deleteForm(Long id) {
+     persistencePort.deleteForm(id);
+    }
+
 }

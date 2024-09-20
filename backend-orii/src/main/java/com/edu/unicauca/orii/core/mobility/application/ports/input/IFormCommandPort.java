@@ -6,5 +6,5 @@ public interface IFormCommandPort {
     //Writing services
     public Form createForm(Form form);
     public Form updateForm(Long id, Form form);
-   
+    public void deleteForm(Long id);
 }
