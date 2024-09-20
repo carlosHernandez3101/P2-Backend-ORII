@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.AgreementData;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.response.AgreementSearchResponse;
 
 @Mapper(componentModel = "spring")
 public interface IAgreementRestMapper {
@@ -14,4 +15,5 @@ public interface IAgreementRestMapper {
 
     AgreementData toAgreementData(Agreement agreement);
     
+    AgreementSearchResponse toResponse(Agreement agreement);
 }
