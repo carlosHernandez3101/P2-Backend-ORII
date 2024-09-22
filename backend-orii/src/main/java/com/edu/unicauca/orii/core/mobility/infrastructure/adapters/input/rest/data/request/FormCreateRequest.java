@@ -32,6 +32,9 @@ public class FormCreateRequest {
     @NotBlank(message = "The address is required")
     private DirectionEnum direction;
 
+    @NotBlank(message ="The gender is required")
+    private String gender;
+
     @NotNull(message = "CTA is required")
     private Integer cta;
 
