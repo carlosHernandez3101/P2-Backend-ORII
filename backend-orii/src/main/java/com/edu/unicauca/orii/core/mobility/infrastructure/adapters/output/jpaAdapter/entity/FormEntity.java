@@ -44,6 +44,9 @@ public class FormEntity {
     @Column(length = 255)
     private DirectionEnum direction;
 
+    @Column(length = 100)
+    private String gender;
+
     private Integer cta;
 
     @Temporal(TemporalType.DATE)

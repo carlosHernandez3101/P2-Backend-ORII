@@ -1,4 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.domain.model;
+import java.util.Date;
 import java.util.List;
 
 import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
@@ -22,5 +23,10 @@ public class Agreement {
     private String agreementNumber;
     private AgreementStatus status;
     private String country;
+    private String description;
+    private String scope;
+    private Date startDate;
+
+
     private List<Form> forms;
 }
