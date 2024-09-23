@@ -19,5 +19,10 @@ public class AgreementCommandService implements IAgreementCommandPort {
     public Agreement createAgreement(Agreement agreement) {
         return persistencePort.createAgreement(agreement);
     }
+
+    @Override
+    public Agreement updateAgreement(Long id, Agreement agreement) {
+        return persistencePort.updateAgreement(id, agreement);
+    }
     
 }

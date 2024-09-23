@@ -6,4 +6,5 @@ public interface IAgreementCommandPort {
     //Writing services
     public Agreement createAgreement(Agreement agreement);
     
+    public Agreement updateAgreement(Long id, Agreement agreement);
 }
