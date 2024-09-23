@@ -1,5 +1,6 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
@@ -47,6 +48,12 @@ public class AgreementEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AgreementStatus status;
+
+    private String description;
+
+    private String scope;
+
+    private Date startDate;
 
     // Relationship with Form
     @OneToMany(mappedBy = "agreement")
