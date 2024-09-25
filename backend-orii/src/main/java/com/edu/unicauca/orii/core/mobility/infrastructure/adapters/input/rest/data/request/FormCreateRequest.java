@@ -14,7 +14,6 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.da
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Builder
@@ -29,10 +28,10 @@ public class FormCreateRequest {
 
     private Boolean orii;
 
-    @NotBlank(message = "The address is required")
+    @NotNull(message = "The address is required")
     private DirectionEnum direction;
 
-    @NotBlank(message ="The gender is required")
+    @NotNull(message ="The gender is required")
     private String gender;
 
     @NotNull(message = "CTA is required")

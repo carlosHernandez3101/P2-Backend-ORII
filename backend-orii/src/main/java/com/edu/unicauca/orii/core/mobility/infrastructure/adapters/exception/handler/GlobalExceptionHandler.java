@@ -1,20 +1,16 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.handler;
 
-import static java.util.Objects.nonNull;
-
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.common.ApiErrorDto;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.common.ResponseDto;
 
-import java.util.List;
 import java.util.Objects;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,42 +27,25 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
   /**
-   * Exception handler for validation errors.
-   * This method handles `MethodArgumentNotValidException` and returns a `ResponseDto` containing the validation errors.
+   * Handles exceptions.
+   * Logs the error message and returns a response for this specific exception.
    *
-   * @param ex the `MethodArgumentNotValidException` thrown during validation
-   * @return a `ResponseDto` containing the list of `ApiErrorDto` objects representing the validation errors
+   * @param e The Exception instance.
+   * @return Response entity containing error details.
    */
-  @ExceptionHandler
-  @ResponseBody
+  @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseDto<List<ApiErrorDto>> handleException(MethodArgumentNotValidException ex) {
-    List<ApiErrorDto> result = ex.getBindingResult().getAllErrors().stream()
-        .map(this::mapError).toList();
-    return new ResponseDto<>(HttpStatus.OK.value(), MessageLoader
-        .getInstance().getMessage(MessagesConstant.EM009), result);
+  public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+      Map<String, String> errors = new HashMap<>();
+      ex.getBindingResult().getAllErrors().forEach((error) -> {
+          String fieldName = ((FieldError) error).getField();
+          String errorMessage = error.getDefaultMessage();
+          errors.put(fieldName, errorMessage);
+      });
+      return ResponseEntity.badRequest().body(errors);
   }
-
-  /**
-   * Maps an `ObjectError` to an `ApiErrorDto`.
-   * If the error is a `FieldError`, it includes the field name and a localized error message.
-   * Otherwise, it returns a generic error message.
-   *
-   * @param objectError the error object to be mapped
-   * @return an `ApiErrorDto` representing the validation error
-   */
-  private ApiErrorDto mapError(ObjectError objectError) {
-    if (objectError instanceof FieldError field) {
-      return new ApiErrorDto(field.getField(),
-          MessageLoader.getInstance().getMessage(objectError.getDefaultMessage(),
-              field.getField(), nonNull(field.getArguments())
-                  &&
-                  field.getArguments().length >= 2 ? field.getArguments()[1] : null));
-    }
-    return new ApiErrorDto(objectError.getObjectName(), MessageLoader.getInstance().getMessage(MessagesConstant.EM001));
-  }
+  
 
 
   /**
