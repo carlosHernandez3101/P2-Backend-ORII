@@ -5,5 +5,5 @@ import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
 public interface IAgreementCommandPort {
     //Writing services
     public Agreement createAgreement(Agreement agreement);
-    public Agreement deleteAgreement(Long id);
+    public void deleteAgreement(Long id);
 }

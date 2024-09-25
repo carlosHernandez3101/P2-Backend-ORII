@@ -4,5 +4,5 @@ import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
 
 public interface IAgreementCommandPersistencePort {
      public Agreement createAgreement(Agreement agreement);
-     public Agreement deleteAgreement(Long id);
+     public void deleteAgreement(Long id);
 }
