@@ -1,9 +1,13 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.edu.unicauca.orii.core.mobility.application.ports.output.IFormCommandPersistencePort;
 import com.edu.unicauca.orii.core.mobility.domain.model.Form;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventTypeEntity;
@@ -20,6 +24,13 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAda
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ *  Adapter class that implements the {@link IFormCommandPersistencePort} interface.
+ * 
+ *  @author JulianRuano
+ *  @author NarenImbachi
+ *  @author Juliana2101
+ */
 @Component
 @RequiredArgsConstructor
 public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
@@ -34,18 +45,33 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
         private final IEventAdapterMapper eventAdapterMapper;
         private final IPersonAdapterMapper personAdapterMapper;
 
+
+        /**
+         * {@inheritDoc}
+         * <p>This method creates a {@link Form} entity by converting it to a {@link FormEntity} and saving it to the database.</p>
+         * 
+         * @param form The {@link Form} entity to be created.
+         * @return The created {@link Form} entity.
+         * 
+         */
         @Override
         public Form createForm(Form form) {
 
-                AgreementEntity agreementEntity = agreementRepository.findById(form.getAgreement().getAgreementId())
-                                .get();
+                AgreementEntity agreementEntity = agreementRepository
+                        .findById(form.getAgreement().getAgreementId())
+                        .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
+                        MessageLoader.getInstance().getMessage(MessagesConstant.EM002,"Agreement" ,form.getAgreement().getAgreementId())));
+
                 FormEntity formEntity = formAdapterMapper.toFormEntity(form);
                 formEntity.setAgreement(agreementEntity);
 
                 EventEntity eventEntity = eventAdapterMapper.toEventEntity(form.getEvent());
                 EventTypeEntity eventTypeEntity = eventTypeRepository
                                 .findById(form.getEvent().getEventType().getEventTypeId())
-                                .get();
+                                .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
+                                MessageLoader.getInstance().getMessage(MessagesConstant.EM002,"EventType" ,form.getEvent().getEventType().getEventTypeId())));
+
+                                
                 eventEntity.setEventType(eventTypeEntity);
                 eventEntity = eventRepository.save(eventEntity);
                 formEntity.setEvent(eventEntity);
