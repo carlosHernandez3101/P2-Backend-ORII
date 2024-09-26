@@ -1,6 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.response;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,5 @@ public class AgreementSearchResponse {
     private Long agreementId;
     private String institution;
     private String agreementNumber;
-    private AgreementStatus status;
     private String country;
 }

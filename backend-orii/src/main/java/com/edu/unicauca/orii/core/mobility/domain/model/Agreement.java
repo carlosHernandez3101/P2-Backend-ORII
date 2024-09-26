@@ -2,7 +2,6 @@ package com.edu.unicauca.orii.core.mobility.domain.model;
 import java.util.Date;
 import java.util.List;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +20,6 @@ public class Agreement {
     private Long agreementId;
     private String institution;
     private String agreementNumber;
-    private AgreementStatus status;
     private String country;
     private String description;
     private String scope;

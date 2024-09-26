@@ -2,7 +2,6 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.d
 
 import java.util.Date;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
@@ -27,9 +26,6 @@ public class AgreementData {
 
     @NotBlank(message = "The agreement number is required")
     private String agreementNumber;
-
-    @NotBlank(message = "The agreemet status is required")
-    private AgreementStatus status;
 
     @NotBlank(message = "The agreement country is required")
     private String country;

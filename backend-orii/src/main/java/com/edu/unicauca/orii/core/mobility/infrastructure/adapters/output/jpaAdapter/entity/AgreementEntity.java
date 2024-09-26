@@ -3,12 +3,9 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAd
 import java.util.Date;
 import java.util.List;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,10 +41,6 @@ public class AgreementEntity {
 
     @Column(nullable = false)
     private String country;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AgreementStatus status;
 
     private String description;
 
