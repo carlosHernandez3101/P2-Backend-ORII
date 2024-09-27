@@ -50,5 +50,5 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
         return agreementAdapterMapper
                 .toAgreement(agreementRepository.save(agreementAdapterMapper.toAgreementEntity(agreement)));
     }
-    
+
 }
