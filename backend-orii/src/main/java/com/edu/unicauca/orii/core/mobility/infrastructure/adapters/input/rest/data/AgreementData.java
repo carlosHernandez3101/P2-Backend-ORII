@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,22 +21,22 @@ public class AgreementData {
      @JsonIgnore
     private Long agreementId;
 
-    @NotBlank(message = "The name of institution is required")
+    @NotNull(message = "The name of institution is required")
     private String institution;
 
-    @NotBlank(message = "The agreement number is required")
+    @NotNull(message = "The agreement number is required")
     private String agreementNumber;
 
-    @NotBlank(message = "The agreement country is required")
+    @NotNull(message = "The agreement country is required")
     private String country;
 
-    @NotBlank(message = "The agreement description is required")
+    @NotNull(message = "The agreement description is required")
     private String description;
 
-    @NotBlank(message = "The agreement scope is required")
+    @NotNull(message = "The agreement scope is required")
     private String scope;
 
-    @NotBlank(message = "The agreement start date is required")
+    @NotNull(message = "The agreement start date is required")
     private Date startDate;
 
 }
