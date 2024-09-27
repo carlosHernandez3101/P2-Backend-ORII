@@ -1,19 +1,14 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.edu.unicauca.orii.core.mobility.application.service.AgreementCommandService;
 import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.AgreementData;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.mapper.IAgreementRestMapper;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,7 +21,7 @@ public class AgreementCommandController {
     private final IAgreementRestMapper agreementRestMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<AgreementData> createAgreement(
+    public ResponseEntity<AgreementData> createAgreement(@Valid 
             @RequestBody AgreementData agreementCreateRequest) {
 
         Agreement agreement = agreementRestMapper.toAgreement(agreementCreateRequest);
@@ -42,6 +37,12 @@ public class AgreementCommandController {
         Agreement agreement = agreementRestMapper.toAgreement(agreementUpdateRequest);
         agreement = agreementCommandService.updateAgreement(id, agreement);
         return ResponseEntity.ok(agreementRestMapper.toAgreementData(agreement));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteAgreement(@PathVariable Long id) {
+        agreementCommandService.deleteAgreement(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

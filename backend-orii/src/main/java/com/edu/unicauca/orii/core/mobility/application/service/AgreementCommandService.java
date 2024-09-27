@@ -21,8 +21,12 @@ public class AgreementCommandService implements IAgreementCommandPort {
     }
 
     @Override
+    public void deleteAgreement(Long id) {
+        this.persistencePort.deleteAgreement(id);
+    }
+
     public Agreement updateAgreement(Long id, Agreement agreement) {
         return persistencePort.updateAgreement(id, agreement);
     }
-    
+
 }
