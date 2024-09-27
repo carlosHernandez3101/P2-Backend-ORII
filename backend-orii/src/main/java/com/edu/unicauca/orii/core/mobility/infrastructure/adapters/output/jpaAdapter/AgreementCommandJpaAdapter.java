@@ -31,7 +31,7 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
     @Override
     public void deleteAgreement(Long id) {
         Optional<AgreementEntity> agreementEntity = this.agreementRepository.findById(id);
-        Agreement agreementInactive = null;
+
         if (agreementEntity.isEmpty()) {
             throw new EntityNotFoundException("Agreement entity not found");
         }
