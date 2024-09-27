@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.unicauca.orii.core.mobility.application.service.AgreementQueryService;
 import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.mapper.IAgreementRestMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class AgreementQueryController {
     
     private final AgreementQueryService agreementQueryService;
-    private final IAgreementRestMapper agreementRestMapper;
 
     @GetMapping("/allAgreement")
     public Page<Agreement> getAgreements(Pageable pageable) {
