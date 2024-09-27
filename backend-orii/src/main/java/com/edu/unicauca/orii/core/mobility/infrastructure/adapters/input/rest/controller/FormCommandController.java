@@ -13,6 +13,7 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.da
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.response.FormCreateResponse;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.mapper.IFormRestMapper;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class FormCommandController {
     private final IFormRestMapper formRestMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<FormCreateResponse> createForm(@RequestBody FormCreateRequest formCreateRequest) {
+    public ResponseEntity<FormCreateResponse> createForm(@Valid @RequestBody FormCreateRequest formCreateRequest) {
         Form form = formRestMapper.toForm(formCreateRequest);
         form = formCommandService.createForm(form);
         return ResponseEntity.ok(formRestMapper.toFormCreateResponse(form));
