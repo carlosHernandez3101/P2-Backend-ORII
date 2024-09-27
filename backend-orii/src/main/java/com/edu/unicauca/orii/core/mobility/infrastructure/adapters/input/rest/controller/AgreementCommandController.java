@@ -8,6 +8,7 @@ import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.AgreementData;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.mapper.IAgreementRestMapper;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +21,7 @@ public class AgreementCommandController {
     private final IAgreementRestMapper agreementRestMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<AgreementData> createAgreement(
+    public ResponseEntity<AgreementData> createAgreement(@Valid 
             @RequestBody AgreementData agreementCreateRequest) {
 
         Agreement agreement = agreementRestMapper.toAgreement(agreementCreateRequest);
