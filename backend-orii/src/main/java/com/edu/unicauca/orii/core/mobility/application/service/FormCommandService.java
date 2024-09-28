@@ -38,6 +38,15 @@ public class FormCommandService implements IFormCommandPort {
      * {@inheritDoc}
      * <p>This method delegates the creation of a {@link Form} to the persistence layer.</p>
      * <p>It also validates that a teacher is required for incoming students.</p> 
+     * <p>If the teacher is not provided, an error message is returned.</p>
+     * <p>If the person is not a student, the teacher is set to Not applicable.</p>
+     * @param form The form to be created.
+     * @return The created form.
+     * @see Form
+     * @see IFormCommandPersistencePort
+     * @see IFormFormatterResultOutputPort
+     * @see PersonTypeEnum
+     * @see DirectionEnum
      */
     @Override
     public Form createForm(Form form) {
@@ -49,6 +58,8 @@ public class FormCommandService implements IFormCommandPort {
                         "The teacher is required because he/she is a student with Incoming Academic Mobility");
                 }
             }
+        }else{
+            form.setTeacher("N.A.");
         }
 
         return persistencePort.createForm(form);
