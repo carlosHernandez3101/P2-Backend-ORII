@@ -16,6 +16,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -63,7 +64,13 @@ public class AgreementCommandControllerUpdateIntegrationTest {
         mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedAgreement))
-                .andExpect(status().isOk());  // Expecting HTTP 200 OK
+                .andExpect(status().isOk())// Expecting HTTP 200 OK
+                .andExpect(jsonPath("$.institution").value("Universidad Nacional"))
+                .andExpect(jsonPath("$.agreementNumber").value("AC213"))
+                .andExpect(jsonPath("$.country").value("Colombia"))
+                .andExpect(jsonPath("$.description").value("Intercambio"))
+                .andExpect(jsonPath("$.scope").value("VALOR"))
+                .andExpect(jsonPath("$.startDate").value("23-08-2024"));
     }
 
     @Test
@@ -204,6 +211,121 @@ public class AgreementCommandControllerUpdateIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedAgreement))
                 .andExpect(status().isNotFound());  // Expecting HTTP 404 Not FOund
+    }
+
+
+    @Test
+    public void testUpdateAgreementWithNullInstitution() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": null,
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAgreementWithNullAgreementNumber() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": null,
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAgreementWithNullCountry() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": null,
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAgreementWithNullDescription() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": null,
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAgreementWithNullScope() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": null,
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateAgreementWithNullStartDate() throws Exception {
+        String updatedAgreement = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": null
+    }
+    """;
+
+        mockMvc.perform(put("/agreement/update/{id}", initialAgreementEntity.getAgreementId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedAgreement))
+                .andExpect(status().isBadRequest());
     }
 
 }

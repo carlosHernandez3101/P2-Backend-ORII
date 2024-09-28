@@ -154,4 +154,119 @@ public class AgreementCommandControllerCreateIntegrationTest {
     }
 
 
+    @Test
+    public void testCreateAgreementWithNullInstitution() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": null,
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateAgreementWithNullAgreementNumber() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": null,
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateAgreementWithNullCountry() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": null,
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateAgreementWithNullDescription() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": null,
+        "scope": "VALOR",
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateAgreementWithNullScope() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": null,
+        "startDate": "23-08-2024"
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateAgreementWithNullStartDate() throws Exception {
+        String invalidRequest = """
+    {
+        "institution": "Universidad Nacional",
+        "agreementNumber": "AC213",
+        "country": "Colombia",
+        "description": "Intercambio",
+        "scope": "VALOR",
+        "startDate": null
+    }
+    """;
+
+        mockMvc.perform(post("/agreement/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidRequest))
+                .andExpect(status().isBadRequest());
+    }
+
+
 }
