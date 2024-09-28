@@ -141,7 +141,8 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
     @Override
     public void deleteForm(Long id) {
         FormEntity formEntity = formRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Form not found"));
+                .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
+                MessageLoader.getInstance().getMessage(MessagesConstant.EM002,"Form" ,id)));
         formRepository.delete(formEntity);
     }
 
