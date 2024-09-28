@@ -42,10 +42,13 @@ public class AgreementEntity {
     @Column(nullable = false)
     private String country;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String scope;
 
+    @Column(nullable = false)
     private Date startDate;
 
     // Relationship with Form
