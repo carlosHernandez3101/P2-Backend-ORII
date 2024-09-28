@@ -30,9 +30,9 @@ public class AgreementCommandController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<AgreementData> updateAgreement(@Valid 
+    public ResponseEntity<AgreementData> updateAgreement(
             @PathVariable Long id, 
-            @RequestBody AgreementData agreementUpdateRequest) {
+            @Valid @RequestBody AgreementData agreementUpdateRequest) {
 
         Agreement agreement = agreementRestMapper.toAgreement(agreementUpdateRequest);
         agreement = agreementCommandService.updateAgreement(id, agreement);

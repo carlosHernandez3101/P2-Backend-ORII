@@ -4,7 +4,6 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.except
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +43,8 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
     }
     public Agreement updateAgreement(Long id, Agreement agreement) {
         if (!agreementRepository.existsById(id)) {
-            throw new EntityNotFoundException("Agreement not found");
+            throw new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
+                    MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Agreement",id));
         }
 
         agreement.setAgreementId(id);

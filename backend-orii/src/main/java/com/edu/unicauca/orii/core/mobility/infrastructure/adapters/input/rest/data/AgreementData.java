@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,19 +23,19 @@ public class AgreementData {
      @JsonIgnore
     private Long agreementId;
 
-    @NotEmpty(message = "The name of institution is required")
+    @NotBlank(message = "The name of institution is required")
     private String institution;
 
-    @NotEmpty(message = "The agreement number is required")
+    @NotBlank(message = "The agreement number is required")
     private String agreementNumber;
 
-    @NotEmpty(message = "The agreement country is required")
+    @NotBlank(message = "The agreement country is required")
     private String country;
 
-    @NotEmpty(message = "The agreement description is required")
+    @NotBlank(message = "The agreement description is required")
     private String description;
 
-    @NotEmpty(message = "The agreement scope is required")
+    @NotBlank(message = "The agreement scope is required")
     private String scope;
 
     @NotNull(message = "The entry date is required")
