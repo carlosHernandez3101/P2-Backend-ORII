@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.BusinessRuleException;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.common.ResponseDto;
@@ -47,7 +48,17 @@ public class GlobalExceptionHandler {
       return ResponseEntity.badRequest().body(errors);
   }
   
-
+  /*
+   * Handles exceptions.
+   * Logs the error message and returns a response for this specific exception.
+   * 
+   * @param e The HttpRequestMethodNotSupportedException instance.
+   * @return Response entity containing error details.
+   */
+   @ExceptionHandler(NoResourceFoundException.class)
+   public ResponseEntity<ResponseDto<Object>> handleNoResourceFoundException(NoResourceFoundException e) {
+     return new ResponseDto<>(405, e.getMessage()).of();
+   }
 
   /**
    * Handles exceptions.

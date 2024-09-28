@@ -26,13 +26,13 @@ public class AgreementCommandController {
 
         Agreement agreement = agreementRestMapper.toAgreement(agreementCreateRequest);
         agreement = agreementCommandService.createAgreement(agreement);
-        return ResponseEntity.ok(agreementRestMapper.toAgreementData(agreement));
+        return ResponseEntity.created(null).body(agreementRestMapper.toAgreementData(agreement));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<AgreementData> updateAgreement(
             @PathVariable Long id, 
-            @RequestBody AgreementData agreementUpdateRequest) {
+            @Valid @RequestBody AgreementData agreementUpdateRequest) {
 
         Agreement agreement = agreementRestMapper.toAgreement(agreementUpdateRequest);
         agreement = agreementCommandService.updateAgreement(id, agreement);
