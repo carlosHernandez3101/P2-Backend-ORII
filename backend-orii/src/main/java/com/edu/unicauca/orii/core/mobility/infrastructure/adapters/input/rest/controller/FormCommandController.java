@@ -56,14 +56,14 @@ public class FormCommandController {
     }
     
     @PutMapping("/update/{id}")
-    public ResponseEntity<FormCreateResponse> updateForm(@Valid @PathVariable Long id, @RequestBody FormCreateRequest formCreateRequest) {
-        Form form = formRestMapper.toForm(formCreateRequest); // Convertir el FormCreateRequest a un modelo de dominio Form
+    public ResponseEntity<FormCreateResponse> updateForm(@PathVariable Long id, @Valid @RequestBody FormCreateRequest formCreateRequest) {
+        Form form = formRestMapper.toForm(formCreateRequest); 
 
-        form = formCommandService.updateForm(id, form); // Llamar al servicio para actualizar el formulario
+        form = formCommandService.updateForm(id, form);
 
-        FormCreateResponse response = formRestMapper.toFormCreateResponse(form); // Convertir el modelo actualizado de dominio Form a una respuesta adecuada
+        FormCreateResponse response = formRestMapper.toFormCreateResponse(form); 
 
-        return ResponseEntity.ok(response); // Retornar la respuesta con el formulario actualizado
+        return ResponseEntity.ok(response); 
     }
 
 }
