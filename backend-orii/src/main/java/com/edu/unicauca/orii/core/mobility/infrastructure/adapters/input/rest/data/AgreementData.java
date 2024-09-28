@@ -2,8 +2,11 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.d
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,22 +24,23 @@ public class AgreementData {
      @JsonIgnore
     private Long agreementId;
 
-    @NotNull(message = "The name of institution is required")
+    @NotEmpty(message = "The name of institution is required")
     private String institution;
 
-    @NotNull(message = "The agreement number is required")
+    @NotEmpty(message = "The agreement number is required")
     private String agreementNumber;
 
-    @NotNull(message = "The agreement country is required")
+    @NotEmpty(message = "The agreement country is required")
     private String country;
 
-    @NotNull(message = "The agreement description is required")
+    @NotEmpty(message = "The agreement description is required")
     private String description;
 
-    @NotNull(message = "The agreement scope is required")
+    @NotEmpty(message = "The agreement scope is required")
     private String scope;
 
-    @NotNull(message = "The agreement start date is required")
+    @NotNull(message = "The entry date is required")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date startDate;
 
 }
