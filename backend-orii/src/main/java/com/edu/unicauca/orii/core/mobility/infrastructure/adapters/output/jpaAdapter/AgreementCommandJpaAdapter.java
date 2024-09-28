@@ -1,7 +1,11 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter;
 
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.edu.unicauca.orii.core.mobility.application.ports.output.IAgreementCommandPersistencePort;
@@ -31,9 +35,9 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
     @Override
     public void deleteAgreement(Long id) {
         Optional<AgreementEntity> agreementEntity = this.agreementRepository.findById(id);
-
         if (agreementEntity.isEmpty()) {
-            throw new EntityNotFoundException("Agreement entity not found");
+            throw new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
+                    MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Agreement",id));
         }
         this.agreementRepository.deleteById(id);
 
