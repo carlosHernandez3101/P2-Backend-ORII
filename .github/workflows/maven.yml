@@ -28,7 +28,7 @@ jobs:
     - name: Run integration tests with maven
       run: |
         cd backend-orii
-        mvn test -Dtest=*IntegrationTest
+        mvn test
 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
