@@ -1,4 +1,4 @@
-package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages;
+package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages;
 
 import java.text.MessageFormat;
 import java.util.Objects;

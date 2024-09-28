@@ -61,7 +61,6 @@ public class FormCreateRequest {
     @NotBlank(message = "The country is required")
     private String country;
 
-    @NotBlank(message = "The state is required")
     private String teacher;
 
     @NotBlank(message = "The city is required")
