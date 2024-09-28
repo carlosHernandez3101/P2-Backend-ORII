@@ -14,6 +14,7 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.da
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -80,8 +81,8 @@ public class FormCreateRequest {
     private String origin;
 
     private Long agreementId;
-
+    @Valid
     private EventRequest event;
-
+    @Valid
     private PersonData person;
 }
