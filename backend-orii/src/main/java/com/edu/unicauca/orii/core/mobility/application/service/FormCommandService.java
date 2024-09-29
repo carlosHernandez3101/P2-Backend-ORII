@@ -1,7 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.application.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.edu.unicauca.orii.core.mobility.application.ports.input.IFormCommandPort;
@@ -92,10 +90,5 @@ public class FormCommandService implements IFormCommandPort {
     @Override
     public void deleteForm(Long id) {
      persistencePort.deleteForm(id);
-    }
-
-    @Override
-    public List<Form> findAllForms(){
-        return persistencePort.findAllForms();
     }
 }

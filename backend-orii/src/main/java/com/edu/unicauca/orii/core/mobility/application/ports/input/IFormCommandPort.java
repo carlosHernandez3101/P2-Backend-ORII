@@ -1,7 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.application.ports.input;
 
-import java.util.List;
-
 import com.edu.unicauca.orii.core.mobility.domain.model.Form;
 
 /**
@@ -29,5 +27,4 @@ public interface IFormCommandPort {
      * @param id The id of the {@link Form} entity to be deleted
      */
     public void deleteForm(Long id);
-    public List<Form> findAllForms();
 }
