@@ -9,7 +9,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+/**
+ * Represents an agreement between institutions/Represents an agreement entity in the mobility system.
+ * <p>
+ * This class contains details about a specific agreement
+ * including its identification, associated institution, agreement number, 
+ * country, description, scope, start date, and related forms.
+ * </p>
+ * 
+ * <p>
+ * The class is annotated with Lombok annotations to reduce boilerplate code:
+ * <ul>
+ *   <li>{@link AllArgsConstructor} generates a constructor with all fields as parameters.</li>
+ *   <li>{@link NoArgsConstructor} generates a default constructor.</li>
+ *   <li>{@link Getter} and {@link Setter} generate getter and setter methods for all fields.</li>
+ *   <li>{@link Builder} enables the builder pattern for object creation.</li>
+ * </ul>
+ * </p>
+ * @author SergioAriza
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,14 +35,21 @@ import lombok.Setter;
 @Builder
 public class Agreement {
     
+    /** The unique identifier for the agreement. */
     private Long agreementId;
+    /** The name of the institution involved in the agreement. */
     private String institution;
+    /** The agreement number. */
     private String agreementNumber;
+
     private String country;
+    /** A brief description of the agreement. */
     private String description;
+
     private String scope;
+    /** The start date of the agreement. */
     private Date startDate;
 
-
+    /** A list of forms associated with the agreement. */
     private List<Form> forms;
 }

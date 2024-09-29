@@ -29,6 +29,13 @@ public class AgreementCommandController {
         return ResponseEntity.created(null).body(agreementRestMapper.toAgreementData(agreement));
     }
 
+    /**
+     * Updates an existing agreement by its ID.
+     * 
+     * @param id The ID of the agreement to be updated.
+     * @param agreementUpdateRequest The updated data for the agreement.
+     * @return A response entity containing the updated agreement data.
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<AgreementData> updateAgreement(
             @PathVariable Long id, 
