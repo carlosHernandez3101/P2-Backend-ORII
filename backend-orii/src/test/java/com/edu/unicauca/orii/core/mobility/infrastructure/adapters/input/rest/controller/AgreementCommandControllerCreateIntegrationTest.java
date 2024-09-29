@@ -1,5 +1,8 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.controller;
 
+import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.AgreementData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,98 +26,97 @@ public class AgreementCommandControllerCreateIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private String ENDPOINT = "/agreement/create";
+
+    private String toJson(AgreementData data) throws Exception {
+        return objectMapper.writeValueAsString(data);
+    }
+
     @Test
     public void testCreateAgreementWithValidData() throws Exception {
-        String validRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData validData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validRequest))
+                        .content(toJson(validData)))
                 .andExpect(status().isCreated());  // Expecting HTTP 201 for success
     }
 
     @Test
     public void testCreateAgreementWithEmptyInstitution() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());  // Expecting HTTP 400 for bad request
     }
 
     @Test
     public void testCreateAgreementWithEmptyAgreementNumber() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithEmptyCountry() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithEmptyDescription() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -128,7 +133,7 @@ public class AgreementCommandControllerCreateIntegrationTest {
                 }
                 """;
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidRequest))
                 .andExpect(status().isBadRequest());
@@ -147,7 +152,7 @@ public class AgreementCommandControllerCreateIntegrationTest {
                 }
                 """;
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidRequest))
                 .andExpect(status().isBadRequest());
@@ -156,135 +161,122 @@ public class AgreementCommandControllerCreateIntegrationTest {
 
     @Test
     public void testCreateAgreementWithNullInstitution() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": null,
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution(null)
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithNullAgreementNumber() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": null,
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber(null)
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithNullCountry() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": null,
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country(null)
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithNullDescription() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": null,
-                    "scope": "NATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description(null)
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithNullScope() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": null,
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(null)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithNullStartDate() throws Exception {
-        String invalidRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "NATIONAL",
-                    "startDate": null
-                }
-                """;
+        AgreementData invalidData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.NATIONAL)
+                .startDate(null)
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidRequest))
+                        .content(toJson(invalidData)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testCreateAgreementWithValidScopeInternational() throws Exception {
-        String validRequest = """
-                {
-                    "institution": "Universidad Nacional",
-                    "agreementNumber": "AC213",
-                    "country": "Colombia",
-                    "description": "Intercambio",
-                    "scope": "INTERNATIONAL",
-                    "startDate": "23-08-2024"
-                }
-                """;
+        AgreementData validData = AgreementData.builder()
+                .institution("Universidad Nacional")
+                .agreementNumber("AC213")
+                .country("Colombia")
+                .description("Intercambio")
+                .scope(ScopeEnum.INTERNATIONAL)
+                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))
+                .build();
 
-        mockMvc.perform(post("/agreement/create")
+        mockMvc.perform(post(ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validRequest))
-                .andExpect(status().isCreated());  // Expecting HTTP 201 for success
+                        .content(toJson(validData)))
+                .andExpect(status().isCreated());
+
     }
 
     @Test
