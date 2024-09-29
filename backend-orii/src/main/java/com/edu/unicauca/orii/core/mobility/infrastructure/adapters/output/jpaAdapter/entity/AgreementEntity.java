@@ -3,12 +3,10 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAd
 import java.util.Date;
 import java.util.List;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.AgreementStatus;
+import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,23 +34,22 @@ public class AgreementEntity {
     @Column(name = "id_agreement")
     private Long agreementId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String institution;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String agreementNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String country;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AgreementStatus status;
-
+    @Column(nullable = false, length = 1024)
     private String description;
 
-    private String scope;
+    @Column(name="agreement_scope", nullable = false, length = 24)
+    private ScopeEnum scope;
 
+    @Column(nullable = false)
     private Date startDate;
 
     // Relationship with Form

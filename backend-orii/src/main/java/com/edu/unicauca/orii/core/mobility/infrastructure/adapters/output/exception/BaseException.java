@@ -1,4 +1,4 @@
-package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception;
+package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception;
 
 import lombok.Getter;
 import lombok.Setter;
