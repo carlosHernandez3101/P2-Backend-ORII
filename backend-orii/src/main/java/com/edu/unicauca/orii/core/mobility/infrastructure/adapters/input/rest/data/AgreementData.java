@@ -2,12 +2,9 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.d
 
 import java.util.Date;
 
-import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,11 +33,10 @@ public class AgreementData {
     @NotBlank(message = "The agreement description is required")
     private String description;
 
-    @NotNull(message = "The agreement scope is required")
-    private ScopeEnum scope;
+    @NotBlank(message = "The agreement scope is required")
+    private String scope;
 
-    @NotNull(message = "The entry date is required")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @NotBlank(message = "The agreement start date is required")
     private Date startDate;
 
 }

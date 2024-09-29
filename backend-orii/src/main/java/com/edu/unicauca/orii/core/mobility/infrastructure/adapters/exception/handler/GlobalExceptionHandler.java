@@ -1,11 +1,15 @@
-package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.handler;
+package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.handler;
+
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.common.ResponseDto;
 
 import java.util.Objects;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -14,12 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.BusinessRuleException;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.common.ResponseDto;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
 
 /**
  * Global Exception Handler to manage various exception types.
@@ -48,17 +46,7 @@ public class GlobalExceptionHandler {
       return ResponseEntity.badRequest().body(errors);
   }
   
-  /*
-   * Handles exceptions.
-   * Logs the error message and returns a response for this specific exception.
-   * 
-   * @param e The HttpRequestMethodNotSupportedException instance.
-   * @return Response entity containing error details.
-   */
-   @ExceptionHandler(NoResourceFoundException.class)
-   public ResponseEntity<ResponseDto<Object>> handleNoResourceFoundException(NoResourceFoundException e) {
-     return new ResponseDto<>(405, e.getMessage()).of();
-   }
+
 
   /**
    * Handles exceptions.
@@ -71,17 +59,6 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ResponseDto<Object>> handleBusinessRuleException(BusinessRuleException e) {
     return new ResponseDto<>(e.getStatus(), e.getMessage()).of();
   }
-
-  @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<ResponseDto<Object>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-   
-    if(e.getMessage().contains("Cannot deserialize value of type `java.util.Date` from String")) {
-      return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), MessageLoader.getInstance().getMessage(MessagesConstant.EM012)).of();
-    }else {
-      return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), MessageLoader.getInstance().getMessage(MessagesConstant.EM009)).of();
-    } 
-  }
-
 
   /**
    * Handles MissingServletRequestParameterException.

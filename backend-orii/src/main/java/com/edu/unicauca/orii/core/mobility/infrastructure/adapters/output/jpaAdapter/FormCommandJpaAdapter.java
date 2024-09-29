@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.edu.unicauca.orii.core.mobility.application.ports.output.IFormCommandPersistencePort;
 import com.edu.unicauca.orii.core.mobility.domain.model.Form;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.BusinessRuleException;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventTypeEntity;
@@ -88,28 +88,16 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
 
         }
 
-        /**
-         * {@inheritDoc}
-         * <p>This method updates an existing {@link Form} entity by finding it in the database, modifying its properties, 
-         * and saving the updated entity.</p>
-         * 
-         * @param id The ID of the {@link Form} entity to be updated.
-         * @param form The {@link Form} entity containing the updated data.
-         * @return The updated {@link Form} entity.
-         * 
-         * @throws BusinessRuleException If the form, agreement, or event type cannot be found.
-         */
         @Override
         public Form updateForm(Long id, Form form) {
                 FormEntity formEntity = formRepository.findById(id)
-                                .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(), 
-                                MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Form", form.getId())));
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                                "El formulario con ID " + id + " no fue encontrado"));
 
                 if (formEntity.getAgreement().getAgreementId() != form.getAgreement().getAgreementId()) {
                         AgreementEntity agreementEntity = agreementRepository
                                         .findById(form.getAgreement().getAgreementId())
-                                        .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(), 
-                                        MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Agreement", form.getAgreement().getAgreementId())));
+                                        .orElseThrow(() -> new IllegalArgumentException("Convenio no encontrado"));
                         formEntity.setAgreement(agreementEntity);
                 }
 
@@ -117,8 +105,8 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
                                 .getEventTypeId()) {
                         EventTypeEntity eventTypeEntity = eventTypeRepository
                                         .findById(form.getEvent().getEventType().getEventTypeId())
-                                        .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(), 
-                                        MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "EventType", form.getEvent().getEventType().getEventTypeId())));
+                                        .orElseThrow(() -> new IllegalArgumentException(
+                                                        "Tipo de evento no encontrado"));
 
                         formEntity.getEvent().setEventType(eventTypeEntity);
                 }
@@ -138,7 +126,6 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
                 formEntity.setFundingSource(form.getFundingSource());
                 formEntity.setDestination(form.getDestination());
                 formEntity.setOrigin(form.getOrigin());
-                formEntity.setGender(form.getGender());
                 
                 formEntity.getPerson().setIdentificationType(form.getPerson().getIdentificationType());
                 formEntity.getPerson().setPersonType(form.getPerson().getPersonType());
@@ -148,15 +135,13 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
                 formEntity.getPerson().setEmail(form.getPerson().getEmail());
 
                 // Convertir y devolver el Form actualizado
-                formEntity = formRepository.save(formEntity);
-                return formAdapterMapper.toForm(formEntity);
+                return formAdapterMapper.toForm(formRepository.save(formEntity));
         }
 
     @Override
     public void deleteForm(Long id) {
         FormEntity formEntity = formRepository.findById(id)
-                .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
-                MessageLoader.getInstance().getMessage(MessagesConstant.EM002,"Form" ,id)));
+                .orElseThrow(() -> new RuntimeException("Form not found"));
         formRepository.delete(formEntity);
     }
 
