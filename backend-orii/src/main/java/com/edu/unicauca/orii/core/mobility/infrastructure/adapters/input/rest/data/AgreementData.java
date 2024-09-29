@@ -36,7 +36,7 @@ public class AgreementData {
     @NotBlank(message = "The agreement description is required")
     private String description;
 
-    @NotBlank(message = "The agreement scope is required")
+    @NotNull(message = "The agreement scope is required")
     private ScopeEnum scope;
 
     @NotNull(message = "The entry date is required")
