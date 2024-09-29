@@ -46,7 +46,7 @@ public class AgreementQueryJpaAdapter implements IAgreementQueryPersistencePort{
      Page<AgreementEntity> agreementEntities=agreementRepository.findAll(pageable);
      if(agreementEntities.getContent().isEmpty()){
         throw new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
-                        MessageLoader.getInstance().getMessage(MessagesConstant.EM013,"Agreement" ));
+                        MessageLoader.getInstance().getMessage(MessagesConstant.EM014,"Agreement" ));
      }
         return agreementEntities.map(agreementAdapterMapper::toAgreement);
      
@@ -56,7 +56,7 @@ public class AgreementQueryJpaAdapter implements IAgreementQueryPersistencePort{
          * {@inheritDoc}
          * <p>This method lists the agreements through AgrementNumber or institution that are saved in the database, we bring a list of entities {@link AgreementEntity} and we map it to the domain{@link Agreement}</p>
          * 
-         * @param AgreementNumber, @param institution We send the agreement number or the name of the institution 
+         * @param search  We send the agreement number or the name of the institution 
          * @return returns a list {@Link List<Agreement>}, the number of elements that will be displayed will be according to the provided parameters (agreementNumber, Institution)
          * 
          */
@@ -66,7 +66,7 @@ public class AgreementQueryJpaAdapter implements IAgreementQueryPersistencePort{
         List<AgreementEntity> agreementEntities=agreementRepository.findByNumberOrName(search);
         if(agreementEntities.isEmpty()){
               throw new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
-                        MessageLoader.getInstance().getMessage(MessagesConstant.EM013,"Agreement" ));
+                        MessageLoader.getInstance().getMessage(MessagesConstant.EM014,"Agreement" ));
         }
 
         List<Agreement> listAgreement=agreementAdapterMapper.toAgreementList(agreementEntities);
