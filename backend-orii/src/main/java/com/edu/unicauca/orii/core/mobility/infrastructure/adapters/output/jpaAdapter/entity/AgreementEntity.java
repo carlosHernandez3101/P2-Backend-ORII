@@ -46,7 +46,7 @@ public class AgreementEntity {
     @Column(nullable = false, length = 1024)
     private String description;
 
-    @Column(nullable = false, length = 24)
+    @Column(name="agreement_scope", nullable = false, length = 24)
     private ScopeEnum scope;
 
     @Column(nullable = false)
