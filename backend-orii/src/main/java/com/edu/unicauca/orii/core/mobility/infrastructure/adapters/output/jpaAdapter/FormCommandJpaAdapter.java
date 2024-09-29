@@ -1,8 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
