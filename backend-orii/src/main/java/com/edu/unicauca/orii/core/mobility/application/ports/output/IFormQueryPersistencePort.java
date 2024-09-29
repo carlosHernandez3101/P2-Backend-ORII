@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import com.edu.unicauca.orii.core.mobility.domain.model.Form;
 
 public interface IFormQueryPersistencePort {
-    Page<Form> findAll(Pageable pageable);
+    Page<Form> findAllForms(Pageable pageable);
 }

@@ -160,11 +160,4 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
         formRepository.delete(formEntity);
     }
 
-    @Override
-    public List<Form> findAllForms() {
-         List<FormEntity> formEntities = formRepository.findAll();
-         return formEntities.stream()
-            .map(formEntity -> formAdapterMapper.toForm(formEntity))
-            .collect(Collectors.toList());
-    }
 }
