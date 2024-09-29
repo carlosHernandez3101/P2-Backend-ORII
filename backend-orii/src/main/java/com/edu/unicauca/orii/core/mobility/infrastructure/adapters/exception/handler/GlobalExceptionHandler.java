@@ -1,13 +1,10 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.handler;
 
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.common.ResponseDto;
-
-import java.util.Objects;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,6 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.common.ResponseDto;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.exception.messages.MessagesConstant;
 
 /**
  * Global Exception Handler to manage various exception types.
@@ -91,6 +93,16 @@ public class GlobalExceptionHandler {
         MessageLoader.getInstance().getMessage(MessagesConstant.EM001));
   }
 
+
+
+   @ExceptionHandler(EmptyResultDataAccessException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ResponseDto<Void> handleEmptyResultDataAccessException(EmptyResultDataAccessException
+   ex) {
+    return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+        MessageLoader.getInstance().getMessage(MessagesConstant.EM001));
+  }
 
   /**
    * Handles `MethodArgumentTypeMismatchException` by returning a response with a 400 BAD REQUEST status.

@@ -1,5 +1,7 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,4 +18,8 @@ public interface IAgreementRestMapper {
     AgreementData toAgreementData(Agreement agreement);
     
     AgreementSearchResponse toResponse(Agreement agreement);
+    
+     List<AgreementData> toListAgreementData(List<Agreement> agreement);
+
+    
 }
