@@ -11,6 +11,13 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.ma
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Controller for managing agreements.
+ * This class provides endpoints to create, update, and delete agreements.
+ * @author SergioAriza
+ * @author RubenSantiagoCP
+ */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/agreement")
@@ -20,6 +27,12 @@ public class AgreementCommandController {
     private final AgreementCommandService agreementCommandService;
     private final IAgreementRestMapper agreementRestMapper;
 
+    /**
+     * Creates a new agreement based on the provided request data.
+     *
+     * @param agreementCreateRequest the request containing agreement data to create
+     * @return ResponseEntity containing the created agreement data
+     */
     @PostMapping("/create")
     public ResponseEntity<AgreementData> createAgreement(@Valid 
             @RequestBody AgreementData agreementCreateRequest) {
