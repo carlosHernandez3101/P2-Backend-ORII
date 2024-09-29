@@ -56,9 +56,4 @@ public class FormCommandService implements IFormCommandPort {
     public void deleteForm(Long id) {
      persistencePort.deleteForm(id);
     }
-
-    @Override
-    public List<Form> findAllForms(){
-        return persistencePort.findAllForms();
-    }
 }

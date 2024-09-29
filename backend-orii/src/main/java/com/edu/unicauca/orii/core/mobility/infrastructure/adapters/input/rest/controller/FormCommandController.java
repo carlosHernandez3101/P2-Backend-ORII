@@ -1,12 +1,8 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,14 +42,14 @@ public class FormCommandController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/findAllForms")
+    /*@GetMapping("/findAllForms")
     public ResponseEntity<List<FormCreateResponse>> getAllForm(){
         List<Form> forms = formCommandService.findAllForms();
         List<FormCreateResponse> responses = forms.stream()
             .map(form -> formRestMapper.toFormCreateResponse(form))
             .collect(Collectors.toList());
         return ResponseEntity.ok(responses);
-    }
+    }*/
     
     @PutMapping("/update/{id}")
     public ResponseEntity<FormCreateResponse> updateForm(@PathVariable Long id, @RequestBody FormCreateRequest formCreateRequest) {

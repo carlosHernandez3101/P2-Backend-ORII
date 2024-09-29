@@ -1,8 +1,5 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -143,13 +140,5 @@ public class FormCommandJpaAdapter implements IFormCommandPersistencePort {
         FormEntity formEntity = formRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Form not found"));
         formRepository.delete(formEntity);
-    }
-
-    @Override
-    public List<Form> findAllForms() {
-         List<FormEntity> formEntities = formRepository.findAll();
-         return formEntities.stream()
-            .map(formEntity -> formAdapterMapper.toForm(formEntity))
-            .collect(Collectors.toList());
     }
 }
