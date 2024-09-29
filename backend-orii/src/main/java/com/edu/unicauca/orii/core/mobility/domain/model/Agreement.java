@@ -2,6 +2,7 @@ package com.edu.unicauca.orii.core.mobility.domain.model;
 import java.util.Date;
 import java.util.List;
 
+import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ import lombok.Setter;
  * </ul>
  * </p>
  * @author SergioAriza
+ * @author RubenSantiagoCP
  */
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,7 +48,7 @@ public class Agreement {
     /** A brief description of the agreement. */
     private String description;
 
-    private String scope;
+    private ScopeEnum scope;
     /** The start date of the agreement. */
     private Date startDate;
 

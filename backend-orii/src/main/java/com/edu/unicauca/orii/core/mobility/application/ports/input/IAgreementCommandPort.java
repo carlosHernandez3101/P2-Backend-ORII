@@ -13,8 +13,16 @@ import com.edu.unicauca.orii.core.mobility.domain.model.Agreement;
  * @author SergioAriza
  */
 public interface IAgreementCommandPort {
-    //Writing services
+
+    /**
+     * Creates a new {@link Agreement} in the system.
+     * <p> 
+     * @param agreement The {@link Agreement} object representing the new agreement to be created.
+     * @return The created {@link Agreement} object, including any system-generated values.
+     */
+
     public Agreement createAgreement(Agreement agreement);
+    
     public void deleteAgreement(Long id);
     
     /**

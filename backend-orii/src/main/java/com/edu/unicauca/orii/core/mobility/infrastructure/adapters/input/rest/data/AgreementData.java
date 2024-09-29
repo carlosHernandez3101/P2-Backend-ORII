@@ -2,6 +2,7 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.d
 
 import java.util.Date;
 
+import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,7 +37,7 @@ public class AgreementData {
     private String description;
 
     @NotBlank(message = "The agreement scope is required")
-    private String scope;
+    private ScopeEnum scope;
 
     @NotNull(message = "The entry date is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

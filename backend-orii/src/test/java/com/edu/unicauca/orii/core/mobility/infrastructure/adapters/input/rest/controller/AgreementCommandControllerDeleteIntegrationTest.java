@@ -1,5 +1,6 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.controller;
 
+import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IAgreementRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ public class AgreementCommandControllerDeleteIntegrationTest {
                 .agreementNumber("AC213")
                 .country("Colombia")
                 .description("Intercambio")
-                .scope("VALOR")
+                .scope(ScopeEnum.INTERNATIONAL)
                 .startDate(new Date())  // Current date
                 .build();
 
