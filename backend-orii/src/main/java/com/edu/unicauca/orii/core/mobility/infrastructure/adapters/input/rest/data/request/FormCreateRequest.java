@@ -30,6 +30,7 @@ public class FormCreateRequest {
     @JsonIgnore
     private Long id;
 
+    @NotNull(message = "The orii is required")
     private Boolean orii;
 
     @NotNull(message = "The address is required")
@@ -80,7 +81,9 @@ public class FormCreateRequest {
     @NotBlank(message = "The origin is required")
     private String origin;
 
+    @NotNull(message = "The agreement id is required")
     private Long agreementId;
+    
     @Valid
     private EventRequest event;
     @Valid
