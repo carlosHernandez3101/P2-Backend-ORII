@@ -21,7 +21,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AgreementData {
 
-     @JsonIgnore
     private Long agreementId;
 
     @NotBlank(message = "The name of institution is required")
