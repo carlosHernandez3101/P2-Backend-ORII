@@ -12,6 +12,12 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAda
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * JPA adapter for querying forms.
+ * This adapter provides a way to query forms from the database using JPA.
+ *
+ * @author JhossefCons
+ */
 @Component
 @RequiredArgsConstructor
 public class FormQueryJpaAdapter implements IFormQueryPersistencePort {
@@ -19,7 +25,12 @@ public class FormQueryJpaAdapter implements IFormQueryPersistencePort {
     private final IFormRepository formRepository;
     private final IFormAdapterMapper formAdapterMapper;
 
-    
+    /**
+     * Retrieves a paginated list of all forms.
+     * 
+     * @param pageable the pagination information
+     * @return a page of forms
+     */
     @Override
     public Page<Form> findAllForms(Pageable pageable) {
        Page<FormEntity> formsEntities=formRepository.findAll(pageable);
