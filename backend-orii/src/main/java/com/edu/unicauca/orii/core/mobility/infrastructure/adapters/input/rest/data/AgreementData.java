@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
