@@ -53,44 +53,51 @@ public class AgreementCommandControllerQueryIntegrationTest {
     
     @BeforeEach
     public void setUp() throws ParseException{
-        AgreementEntity initialAgreementEntity1 = AgreementEntity.builder()
-                .institution("Instituto Tecnológico")
-                .agreementNumber("IT85629")
-                .country("México")
-                .description("Programa de Doble Titulación")
-                .scope(ScopeEnum.INTERNATIONAL)
-                .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
-                .build();
+        if(!this.agreementRepository.findAll().isEmpty()){
+            this.agreementRepository.deleteAll();
+            AgreementEntity initialAgreementEntity1 = AgreementEntity.builder()
+                            .institution("Instituto Tecnológico")
+                            .agreementNumber("IT85629")
+                            .country("México")
+                            .description("Programa de Doble Titulación")
+                            .scope(ScopeEnum.INTERNATIONAL)
+                            .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
+                            .build();
 
-        AgreementEntity initialAgreementEntity2 = AgreementEntity.builder()
-                        .institution("Escuela Politécnica de Buenos Aires Andalucia")
-                        .agreementNumber("EP629")
-                        .country("España")
-                        .description("Intercambio Cultural")
-                        .scope(ScopeEnum.NATIONAL)
-                        .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
-                        .build();
+            AgreementEntity initialAgreementEntity2 = AgreementEntity.builder()
+                            .institution("Escuela Politécnica de Buenos Aires Andalucia")
+                            .agreementNumber("EP629")
+                            .country("España")
+                            .description("Intercambio Cultural")
+                            .scope(ScopeEnum.NATIONAL)
+                            .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
+                            .build();
 
-        AgreementEntity initialAgreementEntity3 = AgreementEntity.builder()
-                        .institution("Universidad de Buenos Aires")
-                        .agreementNumber("UB100")
-                        .country("Argentina")
-                        .description("Becas de Investigación")
-                        .scope(ScopeEnum.NATIONAL)
-                        .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
-                        .build();
+            AgreementEntity initialAgreementEntity3 = AgreementEntity.builder()
+                            .institution("Universidad de Buenos Aires")
+                            .agreementNumber("UB100")
+                            .country("Argentina")
+                            .description("Becas de Investigación")
+                            .scope(ScopeEnum.NATIONAL)
+                            .startDate(new SimpleDateFormat("dd-MM-yyyy").parse("23-08-2024"))  // Current date
+                            .build();
 
-        this.agreementRepository.save(initialAgreementEntity1);
-        this.agreementRepository.save(initialAgreementEntity2);
-        this.agreementRepository.save(initialAgreementEntity3);
-
-        List<Agreement> lstAgreements = this.agreementRepository.findAll().stream().map(agreementAdapterMapper::toAgreement).collect(Collectors.toList());
+            this.agreementRepository.save(initialAgreementEntity1);
+            this.agreementRepository.save(initialAgreementEntity2);
+            this.agreementRepository.save(initialAgreementEntity3);
+        }
         
+        List<Agreement> lstAgreements = this.agreementRepository.findAll().stream().map(agreementAdapterMapper::toAgreement).collect(Collectors.toList());
+    
         this.lstAgreementsData = this.agreementRestMapper.toListAgreementData(lstAgreements);
+        
     }
     
     @Test
     public void testGetgetAgreements() throws Exception{
+
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
         ResultActions response = this.mockMvc.perform(get(this.END_POINT+"/all"))
         .andExpect(status().isOk());
 
@@ -107,6 +114,9 @@ public class AgreementCommandControllerQueryIntegrationTest {
     
     @Test
     public void testGetAgreenmentByNumber() throws Exception {
+        
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
         this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}",this.AGREEMENT_NUMBER)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -115,6 +125,9 @@ public class AgreementCommandControllerQueryIntegrationTest {
 
     @Test
     public void testGetNoExistAgreenmentByNumber() throws Exception {
+        
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
         this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}","AB")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
@@ -122,6 +135,9 @@ public class AgreementCommandControllerQueryIntegrationTest {
 
     @Test
     public void testGetAgreenmentByName() throws Exception {
+        
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
         this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}",this.AGREEMENT_INSTITUTION)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -130,7 +146,10 @@ public class AgreementCommandControllerQueryIntegrationTest {
 
     @Test
     public void testGetNoExistAgreenmentByName() throws Exception {
-        this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}","Cali")
+        
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
+        this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}","Bogotá")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
     }
