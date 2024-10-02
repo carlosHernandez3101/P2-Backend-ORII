@@ -53,7 +53,8 @@ public class AgreementCommandControllerQueryIntegrationTest {
     
     @BeforeEach
     public void setUp() throws ParseException{
-        if(this.agreementRepository.findAll().isEmpty()){
+        if(!this.agreementRepository.findAll().isEmpty()){
+            this.agreementRepository.deleteAll();
             AgreementEntity initialAgreementEntity1 = AgreementEntity.builder()
                             .institution("Instituto Tecnológico")
                             .agreementNumber("IT85629")
@@ -113,6 +114,9 @@ public class AgreementCommandControllerQueryIntegrationTest {
     
     @Test
     public void testGetAgreenmentByNumber() throws Exception {
+        
+        System.out.println("\nTamaño del listado del repositorio de agreements: "+this.agreementRepository.findAll().size()+"\n");
+
         this.mockMvc.perform(get(this.END_POINT+"/filterbynumberorname/{search}",this.AGREEMENT_NUMBER)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
