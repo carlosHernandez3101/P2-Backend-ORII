@@ -56,7 +56,7 @@ public class AgreementQueryController {
      * @param search we send either the code or part of it, or the name or part of the name and will search for matches
      * @return ResponseEntity with the data of the agreements or agreement that you send in the parameter
      */
-    @GetMapping("filterbynumerorname/{search}")
+    @GetMapping("filterbynumberorname/{search}")
     public ResponseEntity<List<AgreementData>> getAgreenmentByNumberOrName(@PathVariable String search) {
         List<Agreement> objAgreements=agreementQueryService.getAgreementByNumberOrName(search);
         List<AgreementData> objResponse=agreementRestMapper.toListAgreementData(objAgreements);
