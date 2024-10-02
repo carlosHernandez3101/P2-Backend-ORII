@@ -39,7 +39,7 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
      * {@link AgreementEntity} and saving it to the database.
      * </p>
      * 
-     * @param form The {@link Agreement} entity to be created.
+     * @param agreement The {@link Agreement} entity to be created.
      * @return The created {@link Agreement} entity.
      * 
      */
