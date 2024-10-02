@@ -12,7 +12,6 @@ public interface IAgreementCommandPersistencePort {
 
      /**
      * Persists a new {@link Agreement} in the database.
-     * <p>
      * @param agreement The {@link Agreement} object representing the new agreement to be persisted.
      * @return The persisted {@link Agreement} object, potentially enriched with database-generated values.
      */

@@ -16,7 +16,6 @@ public interface IAgreementCommandPort {
 
     /**
      * Creates a new {@link Agreement} in the system.
-     * <p> 
      * @param agreement The {@link Agreement} object representing the new agreement to be created.
      * @return The created {@link Agreement} object, including any system-generated values.
      */
