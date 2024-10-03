@@ -17,6 +17,11 @@ import org.springframework.http.ResponseEntity;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * Response DTO class.
+ *
+ * @param <T> the type of the response object
+ */
 public class ResponseDto<T> {
   private T data;
   private Integer status;

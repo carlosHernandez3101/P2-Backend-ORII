@@ -11,7 +11,7 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAda
 
 public interface IAgreementRepository extends JpaRepository<AgreementEntity, Long> {
 
-    @Query("SELECT a FROM AgreementEntity a WHERE UPPER(a.agreementNumber) LIKE UPPER(CONCAT(:search, '%') )"+
+    @Query("SELECT a FROM AgreementEntity a WHERE UPPER(a.agreementNumber) LIKE UPPER(CONCAT('%', :search, '%') )"+
     "OR UPPER(a.institution) LIKE UPPER(CONCAT('%', :search, '%'))")
     List<AgreementEntity>findByNumberOrName(@Param("search")String search);
     

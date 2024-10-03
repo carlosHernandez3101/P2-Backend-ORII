@@ -18,7 +18,6 @@ import lombok.Setter;
  * country, description, scope, start date, and related forms.
  * </p>
  * 
- * <p>
  * The class is annotated with Lombok annotations to reduce boilerplate code:
  * <ul>
  *   <li>{@link AllArgsConstructor} generates a constructor with all fields as parameters.</li>
@@ -26,7 +25,6 @@ import lombok.Setter;
  *   <li>{@link Getter} and {@link Setter} generate getter and setter methods for all fields.</li>
  *   <li>{@link Builder} enables the builder pattern for object creation.</li>
  * </ul>
- * </p>
  * @author SergioAriza
  * @author RubenSantiagoCP
  */
@@ -35,6 +33,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+/**
+ * Represents an agreement entity in the mobility system.
+ */
 public class Agreement {
     
     /** The unique identifier for the agreement. */
