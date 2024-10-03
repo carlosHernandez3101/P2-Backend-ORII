@@ -1,5 +1,6 @@
 package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.except
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.FormEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.mapper.IAgreementAdapterMapper;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IAgreementRepository;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IFormRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 public class AgreementCommandJpaAdapter implements IAgreementCommandPersistencePort {
 
     private final IAgreementRepository agreementRepository;
+
+    private final IFormRepository formRepository;
 
     private final IAgreementAdapterMapper agreementAdapterMapper;
 
@@ -56,6 +61,13 @@ public class AgreementCommandJpaAdapter implements IAgreementCommandPersistenceP
             throw new BusinessRuleException(HttpStatus.NOT_FOUND.value(),
                     MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Agreement", id));
         }
+
+        List<FormEntity> forms = formRepository.findByAgreement_AgreementId(id);
+        for (FormEntity form : forms) {
+            form.setAgreement(null);
+            formRepository.save(form);
+        }
+        
         this.agreementRepository.deleteById(id);
 
     }
