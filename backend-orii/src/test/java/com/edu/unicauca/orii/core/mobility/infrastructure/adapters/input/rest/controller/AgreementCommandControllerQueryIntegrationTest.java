@@ -27,6 +27,7 @@ import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.ma
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.mapper.IAgreementAdapterMapper;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IAgreementRepository;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IFormRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +40,9 @@ public class AgreementCommandControllerQueryIntegrationTest {
 
     @Autowired
     private IAgreementRepository agreementRepository;
+
+    @Autowired
+    private IFormRepository formRepository;
     
     @Autowired
     private IAgreementRestMapper agreementRestMapper;
@@ -56,6 +60,7 @@ public class AgreementCommandControllerQueryIntegrationTest {
 
     @BeforeAll
     public void setUp() throws ParseException{
+        this.formRepository.deleteAll();
         this.agreementRepository.deleteAll();
         Date dateTest = new SimpleDateFormat("dd-MM-yyyy").parse(this.DATE_TEST);
 
