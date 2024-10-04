@@ -4,11 +4,11 @@ import com.edu.unicauca.orii.core.mobility.domain.enums.DirectionEnum;
 import com.edu.unicauca.orii.core.mobility.domain.enums.IdentificationTypeEnum;
 import com.edu.unicauca.orii.core.mobility.domain.enums.PersonTypeEnum;
 import com.edu.unicauca.orii.core.mobility.domain.enums.ScopeEnum;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.PersonData;
-import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.input.rest.data.request.EventRequest;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.AgreementEntity;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.EventTypeEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.FormEntity;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.PersonEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IAgreementRepository;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IEventTypeRepository;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IFormRepository;
@@ -22,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -53,7 +54,7 @@ public class FormCommandControllerDeleteIntegrationTest {
     private EventTypeEntity initialEventTypeEntity;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws ParseException {
 
         initialAgreementEntity = AgreementEntity.builder()
                 .institution("Universidad Nacional")
@@ -90,12 +91,12 @@ public class FormCommandControllerDeleteIntegrationTest {
                 .fundingSource("Beca Colciencias")
                 .destination("Universidad Nacional de Colombia")
                 .origin("Universidad del Cauca")
-                .agreementId(initialAgreementEntity.getAgreementId())
-                .event(EventRequest.builder()
+                .agreement(initialAgreementEntity)
+                .event(EventEntity.builder()
                         .description("Congreso Internacional de Inteligencia Artificial")
-                        .eventTypeId(initialEventTypeEntity.getEventTypeId())
+                        .eventType(initialEventTypeEntity)
                         .build())
-                .person(PersonData.builder()
+                .person(PersonEntity.builder()
                         .identificationType(IdentificationTypeEnum.CC)
                         .personType(PersonTypeEnum.TEACHER)
                         .firstName("Carlos")
