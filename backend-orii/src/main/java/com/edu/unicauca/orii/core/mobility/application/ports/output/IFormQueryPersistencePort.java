@@ -18,4 +18,6 @@ public interface IFormQueryPersistencePort {
      * @return a page of forms
      */
     Page<Form> findAllForms(Pageable pageable);
+
+    Form findFormById(Long formId);
 }

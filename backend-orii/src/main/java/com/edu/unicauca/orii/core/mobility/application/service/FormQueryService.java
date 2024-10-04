@@ -31,4 +31,8 @@ public class FormQueryService implements IFormQueryPort{
         public Page<Form> findAllForms(Pageable pageable) {
             return persistencePort.findAllForms(pageable);
         }
+        @Override
+        public Form findFormById(Long formId) {
+            return persistencePort.findFormById(formId);
+        }
     }

@@ -2,6 +2,7 @@ package com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAd
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.edu.unicauca.orii.core.mobility.application.ports.output.IFormQueryPersistencePort;
@@ -9,6 +10,9 @@ import com.edu.unicauca.orii.core.mobility.domain.model.Form;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.entity.FormEntity;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.mapper.IFormAdapterMapper;
 import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.jpaAdapter.repository.IFormRepository;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.BusinessRuleException;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessageLoader;
+import com.edu.unicauca.orii.core.mobility.infrastructure.adapters.output.exception.messages.MessagesConstant;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,5 +39,14 @@ public class FormQueryJpaAdapter implements IFormQueryPersistencePort {
     public Page<Form> findAllForms(Pageable pageable) {
        Page<FormEntity> formsEntities=formRepository.findAll(pageable);
        return formsEntities.map(formAdapterMapper::toForm);
+    }
+
+    @Override
+    public Form findFormById(Long formId) {
+        FormEntity formEntity = formRepository.findById(formId)
+            .orElseThrow(() -> new BusinessRuleException(HttpStatus.NOT_FOUND.value(), 
+            MessageLoader.getInstance().getMessage(MessagesConstant.EM002, "Form", formId)));
+
+        return formAdapterMapper.toForm(formEntity);           
     }
 }

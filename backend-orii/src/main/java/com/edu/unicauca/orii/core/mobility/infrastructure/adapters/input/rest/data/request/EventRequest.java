@@ -20,8 +20,10 @@ public class EventRequest {
 
     @JsonIgnore
     private Long eventId;
+
     @NotBlank(message = "The description is required")
     private String description;
+    
     @NotNull(message = "The description is required")
     @Min(value = 1, message = "eventType must be a positive number")
     private Long eventTypeId;

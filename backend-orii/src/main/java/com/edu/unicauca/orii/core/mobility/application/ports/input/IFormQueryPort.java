@@ -18,5 +18,7 @@ public interface IFormQueryPort {
      * @return a page of forms
      */
     Page<Form> findAllForms(Pageable pageable);
+
+    Form findFormById(Long formId);
     
 }
