@@ -1,38 +1,26 @@
--- init.sql
-WHENEVER SQLERROR EXIT SQL.SQLCODE;
+-- init.sql para MySQL
 
--- Definir las variables antes de usarlas
-DEFINE usuario = "&1"
-DEFINE password = "&2"
+-- Definir variables (en MySQL no se definen de la misma manera que en Oracle, se deben pasar directamente o usar variables de sesión si es necesario)
+SET @usuario = 'admin'; -- Reemplazar con el valor deseado
+SET @password = 'admin'; -- Reemplazar con el valor deseado
 
-ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+-- Verificar si el usuario existe
+SELECT COUNT(*) INTO @v_exists FROM mysql.user WHERE user = @usuario;
 
-DECLARE
-    v_username VARCHAR2(30) := '&&usuario';
-    v_password VARCHAR2(30) := '&&password';
-    v_exists NUMBER;
-BEGIN
-    SELECT COUNT(*) INTO v_exists
-    FROM all_users
-    WHERE username = UPPER(v_username);
-    -- Crear el usuario
-    IF v_exists = 0 THEN
-        EXECUTE IMMEDIATE 'CREATE USER ' || v_username || ' IDENTIFIED BY ' || v_password;
-        DBMS_OUTPUT.PUT_LINE('Usuario ' || v_username || ' creado exitosamente');
-    ELSE
-        DBMS_OUTPUT.PUT_LINE('El usuario ' || v_username || ' ya existe');
-    END IF;
+-- Crear el usuario si no existe
+SET @query = '';
+IF @v_exists = 0 THEN
+    SET @query = CONCAT('CREATE USER ', @usuario, ' IDENTIFIED BY "', @password, '"');
+    PREPARE stmt FROM @query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
     
-    -- Otorgar permisos
-    EXECUTE IMMEDIATE 'GRANT CONNECT TO ' || v_username;
-    EXECUTE IMMEDIATE 'GRANT RESOURCE TO ' || v_username;
-    EXECUTE IMMEDIATE 'GRANT CREATE SESSION TO ' || v_username;
-    EXECUTE IMMEDIATE 'GRANT CREATE TABLE TO ' || v_username;
-    EXECUTE IMMEDIATE 'GRANT DROP ANY TABLE TO ' || v_username;
-    EXECUTE IMMEDIATE 'GRANT CREATE SEQUENCE TO ' || v_username;
+    SET @query = CONCAT('GRANT CONNECT, RESOURCE, CREATE SESSION, CREATE TABLE, DROP, CREATE SEQUENCE ON *.* TO ', @usuario);
+    PREPARE stmt FROM @query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
     
-    DBMS_OUTPUT.PUT_LINE('Usuario ' || v_username || ' creado exitosamente');
-END;
-/
-
-exit;
+    SELECT 'Usuario creado exitosamente' AS mensaje;
+ELSE
+    SELECT 'El usuario ya existe' AS mensaje;
+END IF;
